@@ -12,7 +12,7 @@
           <!-- <search :layout="layout" /> -->
         </div>
       </template>
-      <menu-content class="header-menu" :showIndex="true" :navData="menu" />
+      <menu-content class="header-menu" :showIndex="showIndex" :navData="menu" />
       <template #operations>
         <div class="operations-container">
           <!-- 搜索框 -->
@@ -138,6 +138,9 @@ export default Vue.extend({
         .filter((item, index) => index <= this.maxLevel && index > 0)
         .map((item) => `/${item}`)
         .join('');
+    },
+    showIndex() {
+      return this.$store.state.setting.showIndex;
     },
     showMenu() {
       return !(this.layout === 'mix' && this.showLogo === 'side');

@@ -17,6 +17,7 @@ type IInitStateType = typeof state;
 export interface IStateType extends IInitStateType {
   isAsideFooter: boolean;
   showSettingPanel: boolean;
+  showIndex : boolean;
 }
 
 // 定义的state的初始值方法，传入state或者额外的方法，然后利用 vuex 的双向数据驱动进行值的改变
@@ -31,6 +32,7 @@ const mutations = {
     state.isFooterAside = payload.isFooterAside;
     state.isSidebarFixed = payload.isSidebarFixed;
     state.isHeaderFixed = payload.isHeaderFixed;
+    state.showIndex = payload.showIndex;
     state.showHeader = payload.showHeader;
     state.showFooter = payload.showFooter;
     state.backgroundTheme = payload.backgroundTheme;

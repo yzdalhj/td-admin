@@ -72,7 +72,6 @@ Vue.component('renderFnIcon', {
       type: Object as PropType<MenuRoute>,
       required: true,
     },
-    
   },
   // 遵循最小改动的原则，这里仍然使用 createElement
   render(createElement) {
@@ -89,10 +88,10 @@ export default Vue.extend({
   name: 'MenuContent',
   props: {
     navData: Array,
-    showIndex : {
-      type : Boolean,
-      default : false,
-    }
+    showIndex: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -102,11 +101,11 @@ export default Vue.extend({
   computed: {
     list(): Array<MenuRoute> {
       let menus = getMenuList(this.navData);
-      if(!this.showIndex){
-        menus.forEach(element => {
-          const {path} = this.$route;
-          if(path.indexOf(element.path) > -1 && path !== element.path){
-            menus = element.children 
+      if (!this.showIndex) {
+        menus.forEach((element) => {
+          const { path } = this.$route;
+          if (path.indexOf(element.path) > -1 && path !== element.path) {
+            menus = element.children;
           }
         });
       }
