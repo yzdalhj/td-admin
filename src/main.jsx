@@ -13,6 +13,7 @@ import 'tdesign-vue/es/style/index.css';
 import '@/style/index.less';
 
 import './permission';
+import './components';
 import store from './store';
 
 Vue.use(VueRouter);

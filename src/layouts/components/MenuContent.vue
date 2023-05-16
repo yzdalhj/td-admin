@@ -116,6 +116,9 @@ export default Vue.extend({
     getHref(item: MenuRoute) {
       return item.path.match(/(http|https):\/\/([\w.]+\/?)\S*/);
     },
+    showlog(el: string){
+      console.log(el)
+    }
   },
 });
 </script>

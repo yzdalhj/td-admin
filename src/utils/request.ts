@@ -7,7 +7,7 @@ const API_HOST = env === 'mock' ? '/' : proxy[env].API; // 如果是mock模式 �
 
 const CODE = {
   LOGIN_TIMEOUT: 1000,
-  REQUEST_SUCCESS: 0,
+  REQUEST_SUCCESS: 1,
   REQUEST_FOBID: 1001,
 };
 

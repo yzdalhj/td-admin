@@ -1,5 +1,5 @@
 import { loadEnv } from 'vite';
-import { viteMockServe } from 'vite-plugin-mock';
+// import { viteMockServe } from 'vite-plugin-mock';
 import { createVuePlugin } from 'vite-plugin-vue2';
 import { createSvgPlugin } from 'vite-plugin-vue2-svg';
 
@@ -31,10 +31,10 @@ export default ({ mode }) => {
       createVuePlugin({
         jsx: true,
       }),
-      viteMockServe({
-        mockPath: 'mock',
-        localEnabled: true,
-      }),
+      // viteMockServe({
+      //   mockPath: 'mock',
+      //   localEnabled: true,
+      // }),
       createSvgPlugin(),
     ],
 
@@ -43,13 +43,12 @@ export default ({ mode }) => {
     },
 
     server: {
-      host: '0.0.0.0',
+      host: '127.0.0.1',
       port: 3001,
       proxy: {
         '/api': {
-          // 用于开发环境下的转发请求
-          // 更多请参考：https://vitejs.dev/config/#server-proxy
-          target: 'https://service-exndqyuk-1257786608.gz.apigw.tencentcs.com',
+          target: 'http://81.70.198.37:9999',
+          rewrite: (path) => path.replace(/^\/api/, '/'),
           changeOrigin: true,
         },
       },

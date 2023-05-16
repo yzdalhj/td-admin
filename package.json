@@ -47,10 +47,8 @@
     "eslint-import-resolver-alias": "^1.1.2",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-vue": "^7.8.0",
-    "husky": "^8.0.1",
     "less": "^4.1.0",
     "lint-staged": "^13.0.3",
-    "mockjs": "^1.1.0",
     "prettier": "^2.6.0",
     "stylelint": "~13.13.1",
     "stylelint-config-prettier": "~9.0.3",
@@ -68,13 +66,7 @@
       "path": "./node_modules/cz-conventional-changelog"
     }
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "prepare-commit-msg": "exec < /dev/tty && git cz --hook || true",
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
-  },
+  
   "lint-staged": {
     "*.{js,jsx,vue,ts,tsx}": [
       "prettier --write",

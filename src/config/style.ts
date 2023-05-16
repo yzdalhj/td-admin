@@ -1,7 +1,7 @@
 export default {
-  showFooter: true,
+  showFooter: false,
   isSidebarCompact: false,
-  showIndex : true,  //头部菜单根据路由只显示主模块
+  showIndex : true, 
   showBreadcrumb: false,
   mode: 'light',
   layout: 'side',
