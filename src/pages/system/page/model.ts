@@ -110,4 +110,38 @@ export default {
       },
     ],
   },
+  typeForm: {
+    data: {
+      cname: '1',
+      type: '',
+    },
+    labelAlign: 'left',
+    labelWidth: 80,
+    item: [
+      {
+        // title: '123',
+        content: [
+          {
+            span: 12,
+            label: '页面名称',
+            name: 'cname',
+            component: 't-input',
+            rules: [{ required: true, message: '请输入名称' }],
+          },
+          {
+            span: 12,
+            label: '页面类型',
+            name: 'type',
+            component: 't-select',
+            options: [
+              { label: '数据列表', value: '1' },
+              { label: '数据表单', value: '2' },
+              { label: '详情页', value: '3' },
+            ],
+            rules: [{ required: true, trigger:"blur" }],
+          },
+        ],
+      },
+    ],
+  },
 };

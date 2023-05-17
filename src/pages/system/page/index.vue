@@ -33,9 +33,10 @@
     <t-dialog
       v-bind="dialogConfig"
       :visible.sync="confirmVisible"
-      @confirm="onConfirmDelete"
+      @confirm="onConfirm"
       :onCancel="() => (confirmVisible = false)"
     >
+      <base-form-body ref="form" v-if="confirmVisible" :formData="formData"></base-form-body>
     </t-dialog>
   </t-card>
 </template>
@@ -66,6 +67,9 @@ export default {
       config.header = this.acType === 'info' ? '页面详情' : '新增页面';
       return config;
     },
+    formData() {
+      return model.typeForm;
+    },
   },
   methods: {
     onInput() {
@@ -81,7 +85,10 @@ export default {
       this.acType = 'add';
       this.confirmVisible = true;
     },
-    onConfirmDelete() {},
+    onConfirm() {
+      const data =  this.$refs.form.validate();
+      console.log(data);
+    },
   },
 };
 </script>
