@@ -1,9 +1,8 @@
-<!-- eslint-disable vue/no-mutating-props -->
 <template>
   <t-card :bordered="false">
     <t-form
       ref="form"
-      :data="formData.data"
+      :data="data"
       :label-align="formData.labelAlign"
       :label-width="formData.labelWidth"
       v-on="$listeners"
@@ -15,7 +14,7 @@
             <t-col v-for="field in item.content" :span="field.span || 6" :key="field.name">
               <form-item
                 :key="field.name"
-                :model="formData.data[field.name]"
+                :value="data[field.name]"
                 :label="field.label"
                 v-bind="field"
                 :custom-slots="customSlots"
@@ -35,6 +34,8 @@
 </template>
 
 <script>
+import _ from "lodash"
+
 export default {
   name: 'base-form-body',
   props: {
@@ -44,35 +45,41 @@ export default {
     },
   },
   data() {
-    return {};
+    return {
+      data : {}
+    };
   },
   computed: {
     customSlots() {
       return this.$scopedSlots;
     },
   },
+  mounted(){
+    this.data = _.cloneDeep(this.formData.data) 
+  },
   methods: {
-    validate() {
-      this.$refs.form.validate((valid) => {
-        console.log(valid);
-      });
+    async validate() {
+      const data = await this.$refs.form.validate();
+      if( typeof(data) === "boolean" && data){
+        return this.data
+      }
     },
     handleChange(key, value) {
       this.$nextTick(() => {
-        this.formData.data[key] = value;
+        this.data[key] = value;
       });
     },
     handleClear(key, value) {
-      this.formData.data[key] = value;
+      this.data[key] = value;
     },
     handleLabelValue(key, value) {
-      this.formData.data[key] = value;
+      this.data[key] = value;
     },
     handleLabelPathValue(key, value) {
-      this.formData.data[`_${key}Path`] = value;
+      this.data[`_${key}Path`] = value;
     },
     handleValuePath(key, value) {
-      this.formData.data[`_${key}ValuePath`] = value;
+      this.data[`_${key}ValuePath`] = value;
     },
     getRef() {
       return this.$refs.form;

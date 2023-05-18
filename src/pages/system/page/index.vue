@@ -36,7 +36,7 @@
       @confirm="onConfirm"
       :onCancel="() => (confirmVisible = false)"
     >
-      <base-form-body ref="form" v-if="confirmVisible" :formData="formData"></base-form-body>
+      <base-form-body v-if="confirmVisible" ref="form" :formData="formData"></base-form-body>
     </t-dialog>
   </t-card>
 </template>
@@ -59,6 +59,7 @@ export default {
       confirmVisible: false,
       searchValue: '',
       acType: '',
+      formType: '',
     };
   },
   computed: {
@@ -68,7 +69,22 @@ export default {
       return config;
     },
     formData() {
-      return model.typeForm;
+      let form = {};
+      switch (this.formType) {
+      case '1':
+        form = model.typeForm;
+        break;
+      case '2':
+        form = model.typeForm;
+        break;
+      case '3':
+        form = model.typeForm;
+        break;
+      default:
+        form = model.typeForm;
+        break;
+      }
+      return form;
     },
   },
   methods: {
@@ -83,11 +99,17 @@ export default {
     },
     createPage() {
       this.acType = 'add';
+      this.formType = '';
       this.confirmVisible = true;
     },
-    onConfirm() {
-      const data =  this.$refs.form.validate();
-      console.log(data);
+    async onConfirm() {
+      const data = await this.$refs.form.validate();
+      if (!data) return false;
+      if (this.acType === 'add') {
+        this.acType = 'edit';
+        this.formType = data.type;
+        this.confirmVisible = false;
+      }
     },
   },
 };

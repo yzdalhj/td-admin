@@ -112,7 +112,7 @@ export default {
   },
   typeForm: {
     data: {
-      cname: '1',
+      cname: '',
       type: '',
     },
     labelAlign: 'left',
@@ -138,7 +138,7 @@ export default {
               { label: '数据表单', value: '2' },
               { label: '详情页', value: '3' },
             ],
-            rules: [{ required: true, trigger:"blur" }],
+            rules: [{ required: true}],
           },
         ],
       },

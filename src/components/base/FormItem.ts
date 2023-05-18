@@ -36,7 +36,7 @@ export default {
         ...{
           props: {
             label,
-            // prop: name,
+            name,
             rules,
             labelWidth: !label || label.length === 0 ? '0px' : labelWidth,
           },
@@ -53,13 +53,11 @@ export default {
     }
     return h('t-form-item', {
       class: className,
-      id,
       ...{
         props: {
           label,
           name,
           rules,
-          ...props,
         },
         style: {
           width: itemWidth,
