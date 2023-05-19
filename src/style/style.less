@@ -1,0 +1,35 @@
+.dialog-full-screen {
+  .t-dialog__mask {
+    display: none;
+  }
+  .t-dialog__position {
+    padding: 0;
+  }
+  .t-dialog__position.t-dialog--top {
+    align-items: normal;
+    padding-top: 0;
+  }
+  .t-dialog__body {
+    overflow: scroll;
+    height: 90%;
+    padding-bottom: 0;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+/* 滚动槽 */
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset006pxrgba(0, 0, 0, 0.3);
+  border-radius: 2px;
+}
+/* 滚动条滑块 */
+::-webkit-scrollbar-thumb {
+  border-radius: 2px;
+  background: rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: inset006pxrgba(0, 0, 0, 0.5);
+}
+::-webkit-scrollbar-thumb:window-inactive {
+  background: rgba(68, 68, 68, 0.4);
+}

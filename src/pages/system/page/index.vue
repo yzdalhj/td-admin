@@ -29,15 +29,14 @@
           </div>
         </div>
       </div>
-    </div>
-    <t-dialog
+      <t-dialog
       v-bind="dialogConfig"
       :visible.sync="confirmVisible"
       @confirm="onConfirm"
-      :onCancel="() => (confirmVisible = false)"
-    >
-      <base-form-body v-if="confirmVisible" ref="form" :formData="formData"></base-form-body>
+      >
+      <component :is="dialogConfig.component" v-if="confirmVisible" ref="form" :formData="formData"></component>
     </t-dialog>
+    </div>
   </t-card>
 </template>
 <script>
@@ -60,11 +59,12 @@ export default {
       searchValue: '',
       acType: '',
       formType: '',
+      dialog : {},
     };
   },
   computed: {
     dialogConfig() {
-      const config = {};
+      const config = { ...this.dialog };
       config.header = this.acType === 'info' ? '页面详情' : '新增页面';
       return config;
     },
@@ -99,6 +99,9 @@ export default {
     },
     createPage() {
       this.acType = 'add';
+      this.dialog = {
+        component : "base-form-body"
+      };
       this.formType = '';
       this.confirmVisible = true;
     },
@@ -109,6 +112,15 @@ export default {
         this.acType = 'edit';
         this.formType = data.type;
         this.confirmVisible = false;
+        setTimeout(() => {
+          this.dialog = {
+            width : "100%",
+            class : "dialog-full-screen",
+            component : "form-editor",
+            showInAttachedElement : true
+          }
+          this.confirmVisible = true;
+        }, 1000);
       }
     },
   },
@@ -119,6 +131,7 @@ export default {
 @import '@/style/variables.less';
 
 .table-tree-container {
+  position: relative;
   background-color: var(--td-bg-color-container);
   border-radius: var(--td-radius-default);
 
