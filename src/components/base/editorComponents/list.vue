@@ -1,7 +1,7 @@
 <template>
   <t-card :bordered="false">
     <div class="component-list">
-      <t-select class="UI-select" v-model="UI" :options="UIoptions" placeholder="请选择组件集" @change="changeUI" />
+      <t-select class="UI-select" v-model="UI" :options="UIoptions" placeholder="请选择组件集" />
         <t-menu class="components">
           <t-menu-group v-for="group in componentList" :key="group.title">
             {{ group.title }}

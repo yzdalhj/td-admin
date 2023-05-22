@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { MessagePlugin } from 'tdesign-vue';
 import proxy from '../config/host';
 
 const env = import.meta.env.MODE || 'development';
@@ -31,8 +32,12 @@ instance.interceptors.response.use(
       if (data.code === CODE.REQUEST_SUCCESS) {
         return data;
       }
+      MessagePlugin.error({ content : `接口访问失败：${data.message}` })
       return response;
     }
+    MessagePlugin.error({ content : `接口访问失败：${response.status}` })
+    return "";
+    
   },
   (err) => {
     const { config } = err;

@@ -22,20 +22,17 @@
           <div class="table-container">
             <base-table :columns="columns" height="70vh" api="/api/system/page/findPage">
               <template #op="slotProps">
-                <a class="t-button-link" @click="handleClickDetail()">详情</a>
-                <a class="t-button-link" @click="handleClickDelete(slotProps)">删除</a>
+                <!-- <a class="t-button-link" @click="optionActions('detail',slotProps)">详情</a> -->
+                <a class="t-button-link" @click="optionActions('update', slotProps)">编辑</a>
+                <a class="t-button-link" @click="optionActions('delete', slotProps)">删除</a>
               </template>
             </base-table>
           </div>
         </div>
       </div>
-      <t-dialog
-      v-bind="dialogConfig"
-      :visible.sync="confirmVisible"
-      @confirm="onConfirm"
-      >
-      <component :is="dialogConfig.component" v-if="confirmVisible" ref="form" :formData="formData"></component>
-    </t-dialog>
+      <t-dialog v-bind="dialogConfig" :visible.sync="confirmVisible" @confirm="onConfirm">
+        <component :is="dialogConfig.component" v-if="confirmVisible" ref="form" :formId="formId" :formData="formData"></component>
+      </t-dialog>
     </div>
   </t-card>
 </template>
@@ -59,7 +56,8 @@ export default {
       searchValue: '',
       acType: '',
       formType: '',
-      dialog : {},
+      dialog: {},
+      formId : "",
     };
   },
   computed: {
@@ -100,7 +98,7 @@ export default {
     createPage() {
       this.acType = 'add';
       this.dialog = {
-        component : "base-form-body"
+        component: 'base-form-body',
       };
       this.formType = '';
       this.confirmVisible = true;
@@ -114,14 +112,30 @@ export default {
         this.confirmVisible = false;
         setTimeout(() => {
           this.dialog = {
-            width : "100%",
-            class : "dialog-full-screen",
-            component : "form-editor",
-            showInAttachedElement : true
-          }
+            width: '100%',
+            class: 'dialog-full-screen',
+            component: 'form-editor',
+            showInAttachedElement: true,
+          };
           this.confirmVisible = true;
         }, 1000);
       }
+    },
+    optionActions(type, row) {
+      this[type](row);
+    },
+    update({row}) {
+      this.acType = 'info';
+      this.dialog = {
+        width: '100%',
+        class: 'dialog-full-screen',
+        component: 'form-editor',
+        showInAttachedElement: true,
+      };
+      this.formId = row.id;
+      this.formType = row.formType;
+      this.formData.data = row;
+      this.confirmVisible = true;
     },
   },
 };
