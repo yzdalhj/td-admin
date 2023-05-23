@@ -1,5 +1,4 @@
 /* eslint-disable import/prefer-default-export */
-
 export function formItems(items: any): Array<any> {
   const titleItems = [];
   const result = [];
@@ -17,5 +16,13 @@ export function formItems(items: any): Array<any> {
       }
     });
   });
+  return result;
+}
+
+export function KeysObject(items: any , key: string | number) {
+  const result = {}
+  items.forEach((item: any) =>{
+    result[item[key]] = ''
+  })
   return result;
 }

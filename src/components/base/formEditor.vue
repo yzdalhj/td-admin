@@ -6,7 +6,7 @@
         <component-list></component-list>
       </t-aside>
       <t-content @drop="drop($event, 'item')" class="content">
-        <component-canvas :items="items"></component-canvas>
+        <component-canvas :formData="formData"></component-canvas>
       </t-content>
     </t-layout>
   </t-layout>
@@ -15,7 +15,7 @@
 <script lang="ts">
 import componentList from './editorComponents/list.vue';
 import componentCanvas from './editorComponents/canvas.vue';
-import { formItems } from "@/utils/convet"
+import { formItems ,KeysObject } from "@/utils/convet"
 
 export default {
   name: 'form-editor',
@@ -28,17 +28,17 @@ export default {
   },
   data() {
     return {
-      items : []
+      formData : {}
     };
   },
   async mounted() {
     if (this.formId) {
       const { data } = await this.$request.get(`/api/system/page/detail?id=${ this.formId}`);
-      const formData = {
-        data : data.items.map((item: { name: any; })=> item.name)
+      this.formData = {
+        data : KeysObject(data.items.map(({name})=>({name})), 'name'),
+        item : formItems(data.items)
       }
-      this.items = formItems(data.items);
-      console.log(formData);
+      console.log(this.formData);
       
     }
   },
