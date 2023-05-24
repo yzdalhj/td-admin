@@ -5,21 +5,31 @@
       <t-aside class="left">
         <component-list></component-list>
       </t-aside>
-      <t-content @drop="drop($event, 'item')" class="content">
-        <component-canvas :formData="formData"></component-canvas>
+      <t-content class="content">
+        <component-canvas ref="canvas" :formData.sync="formData" @Selected="selectedComponent"></component-canvas>
       </t-content>
+      <t-aside class="right">
+        <component-props
+          :formData.sync="formData"
+          :select="selectComponent"
+          @changeProps="changeProps"
+        ></component-props>
+      </t-aside>
     </t-layout>
   </t-layout>
 </template>
 
 <script lang="ts">
 import componentList from './editorComponents/list.vue';
+import componentProps from './editorComponents/props.vue';
 import componentCanvas from './editorComponents/canvas.vue';
-import { formItems ,KeysObject } from "@/utils/convet"
+import { formItems, KeysObject } from '@/utils/convet';
+
+import _ from 'lodash'
 
 export default {
   name: 'form-editor',
-  components: { componentList, componentCanvas },
+  components: { componentList, componentCanvas, componentProps },
   props: {
     formId: {
       type: [String, Number],
@@ -28,33 +38,56 @@ export default {
   },
   data() {
     return {
-      formData : {}
+      formData: {},
+      selectComponent: {},
     };
   },
   async mounted() {
     if (this.formId) {
-      const { data } = await this.$request.get(`/api/system/page/detail?id=${ this.formId}`);
+      const { data } = await this.$request.get(`/api/system/page/detail?id=${this.formId}`);
       this.formData = {
-        data : KeysObject(data.items.map(({name})=>({name})), 'name'),
-        item : formItems(data.items)
-      }
+        ..._.omit(data,['items']),
+        data: KeysObject(
+          data.items.map(({ name }) => ({ name })),
+          'name',
+        ),
+        item: formItems(data.items),
+      };
       console.log(this.formData);
-      
     }
+    this.init();
   },
+
   methods: {
+    init() {
+      this.selectComponent = {};
+    },
     // 允许放下拖拽
-    allowDrop(ev: { preventDefault: () => void; }) {
+    allowDrop(ev: { preventDefault: () => void }) {
       ev.preventDefault();
     },
     // 放下事件
-    drop(ev: { preventDefault: () => void; target: any; }, item: string) {
+    drop(ev: { preventDefault: () => void; target: any }, item: string) {
       console.log('放下', item);
       ev.preventDefault();
       const treeNode = ev.target;
       if (treeNode) {
         treeNode.appendChild(this.dom);
       }
+    },
+    selectedComponent(item: any) {
+      this.selectComponent = item;
+    },
+    changeProps(item: any) {
+      this.formData.item.forEach((element: { title: any; content: any[]; }) => {
+        if (element.title === item.title) {
+          element.content.forEach((element1: { uuid: any; }) => {
+            if (element1.uuid === item.uuid) {
+              element1 = item;
+            }
+          });
+        }
+      });
     },
   },
 };
@@ -64,7 +97,8 @@ export default {
 .form-editor {
   width: 100%;
   height: 100%;
-  .left {
+  .left,
+  .right {
     width: 19%;
     height: 100%;
     overflow: auto;

@@ -3,7 +3,7 @@ export function formItems(items: any): Array<any> {
   const titleItems = [];
   const result = [];
   items.forEach((element: { title: string | number }) => {
-    if (!titleItems[element.title]) {
+    if (titleItems.indexOf(element.title) < 0) {
       titleItems.push(element.title);
       result.push({
         title: element.title,

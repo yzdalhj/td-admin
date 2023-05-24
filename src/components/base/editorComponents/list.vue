@@ -5,7 +5,7 @@
         <t-menu class="components">
           <t-menu-group v-for="group in componentList" :key="group.title">
             {{ group.title }}
-            <t-menu-item  v-for="item in group.children"  draggable="true" :key="item.name" :value="'t-'+item.name">
+            <t-menu-item  v-for="item in group.children" :key="item.name" :value="'t-'+item.name">
               {{ item.title }}
             </t-menu-item>
           </t-menu-group>

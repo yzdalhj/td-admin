@@ -31,7 +31,13 @@
         </div>
       </div>
       <t-dialog v-bind="dialogConfig" :visible.sync="confirmVisible" @confirm="onConfirm">
-        <component :is="dialogConfig.component" v-if="confirmVisible" ref="form" :formId="formId" :formData="formData"></component>
+        <component
+          :is="dialogConfig.component"
+          v-if="confirmVisible"
+          ref="form"
+          :formId="formId"
+          :formData="formData"
+        ></component>
       </t-dialog>
     </div>
   </t-card>
@@ -39,6 +45,8 @@
 <script>
 import { SearchIcon } from 'tdesign-icons-vue';
 import model from './model';
+
+import _ from 'lodash'
 
 export default {
   name: 'ListTree',
@@ -57,7 +65,7 @@ export default {
       acType: '',
       formType: '',
       dialog: {},
-      formId : "",
+      formId: '',
     };
   },
   computed: {
@@ -92,9 +100,6 @@ export default {
         return rs;
       };
     },
-    rehandleClickOp({ text, row }) {
-      console.log(text, row);
-    },
     createPage() {
       this.acType = 'add';
       this.dialog = {
@@ -104,9 +109,9 @@ export default {
       this.confirmVisible = true;
     },
     async onConfirm() {
-      const data = await this.$refs.form.validate();
-      if (!data) return false;
       if (this.acType === 'add') {
+        const data = await this.$refs.form.validate();
+        if (!data) return false;
         this.acType = 'edit';
         this.formType = data.type;
         this.confirmVisible = false;
@@ -119,12 +124,30 @@ export default {
           };
           this.confirmVisible = true;
         }, 1000);
+      } else {
+        const formDatas = this.$refs.form.formData;
+        const formItems = [];
+        formDatas.item.forEach(element => {
+          element.content.forEach(item => {
+            formItems.push(item)
+          })
+        });
+        const requestBody = {
+          form : _.omit(formDatas,['data','item']),
+          item : formItems,
+        };
+        const { data } = await this.$request.post('/api/system/page/updateFormData',requestBody);
+        if(data === "提交成功"){
+          this.$message.success("提交成功!");
+        }else{
+          this.$message.error(data);
+        }
       }
     },
     optionActions(type, row) {
       this[type](row);
     },
-    update({row}) {
+    update({ row }) {
       this.acType = 'info';
       this.dialog = {
         width: '100%',
