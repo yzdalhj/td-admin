@@ -30,6 +30,11 @@ import _ from 'lodash'
 export default {
   name: 'form-editor',
   components: { componentList, componentCanvas, componentProps },
+  provide(){
+    return {
+      formId : this.formId
+    }
+  },
   props: {
     formId: {
       type: [String, Number],
@@ -61,19 +66,6 @@ export default {
   methods: {
     init() {
       this.selectComponent = {};
-    },
-    // 允许放下拖拽
-    allowDrop(ev: { preventDefault: () => void }) {
-      ev.preventDefault();
-    },
-    // 放下事件
-    drop(ev: { preventDefault: () => void; target: any }, item: string) {
-      console.log('放下', item);
-      ev.preventDefault();
-      const treeNode = ev.target;
-      if (treeNode) {
-        treeNode.appendChild(this.dom);
-      }
     },
     selectedComponent(item: any) {
       this.selectComponent = item;

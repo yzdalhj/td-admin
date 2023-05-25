@@ -18,7 +18,7 @@ export default [
       {
         path: 'dictionary',
         name: 'Dictionary',
-        component: () => import('@/pages/system/page/index.vue'),
+        component: () => import('@/pages/system/exp/test.vue'),
         meta: { title: '字典管理', icon: RelativityIcon },
       },
       {

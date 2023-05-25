@@ -24,11 +24,11 @@ export const translate = async (text: string) => {
 export const UIoptions = [
   {
     label: 'tdesign-vue',
-    value: 'td',
+    value: 't-',
     components: docs,
   },
   {
     label: '自定义组件',
-    value: 'base',
+    value: 'base-',
   },
 ];
