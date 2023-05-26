@@ -21,7 +21,7 @@
             :label="item.name"
             :name="item.name"
           >
-            <t-input v-model="item.value" />
+            <t-input v-model="moreProps.attrData[item.name]" />
           </t-form-item>
         </t-form>
       </t-tab-panel>
@@ -45,37 +45,12 @@ export default {
       tabIndex: 1,
       component: {},
       baseCompents,
-    };
-  },
-  computed: {
-    moreProps() {
-      const result = {
+      moreProps: {
+        attrData: {},
         attr: [],
         function: [],
-      };
-      const componentName = this.component.component;
-      if (componentName) {
-        const el = this.$createElement(componentName).componentOptions.Ctor.options;
-        // eslint-disable-next-line guard-for-in, no-restricted-syntax
-        for (const key in el.props) {
-          if (typeof el.props[key].type === 'function') {
-            result.function.push({
-              name: key,
-              value: el.props[key].default || '',
-              name_CN : ""
-            });
-          } else {
-            result.attr.push({
-              name: key,
-              value: el.props[key].default || '',
-              name_CN : ''
-            });
-          }
-        }
-      }
-      console.log(result);
-      return result;
-    },
+      },
+    };
   },
   watch: {
     select: {
@@ -88,6 +63,32 @@ export default {
     component: {
       handler(_newVal) {
         this.$emit('changeProps', _newVal);
+        const componentName = _newVal.component;
+        if (componentName) {
+          this.moreProps = { attrData: {}, attr: [], function: [] };
+          // const componentOptions = this.$createElement(componentName)
+          // console.log(componentOptions);
+          if (this.$createElement(componentName).componentOptions) {
+            const el = this.$createElement(componentName).componentOptions.Ctor.options;
+            // eslint-disable-next-line guard-for-in, no-restricted-syntax
+            for (const key in el.props) {
+              if (typeof el.props[key].type === 'function') {
+                this.moreProps.function.push({
+                  name: key,
+                  value: el.props[key].default || '',
+                  name_CN: '',
+                });
+              } else {
+                this.moreProps.attr.push({
+                  name: key,
+                  value: el.props[key].default || '',
+                  name_CN: '',
+                });
+                this.$set(this.moreProps.attrData, key, el.props[key].default || '');
+              }
+            }
+          }
+        }
       },
       deep: true,
     },

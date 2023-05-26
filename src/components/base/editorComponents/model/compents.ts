@@ -20,5 +20,9 @@ export const baseCompents = [
     label: '栅格长度',
     name: 'span',
   },
+  {
+    label: '唯一标识',
+    name: 'uuid',
+  },
 ];
 

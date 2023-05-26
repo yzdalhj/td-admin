@@ -27,6 +27,7 @@
 
 <script>
 import { UIoptions } from '@/config/global';
+import { uuid } from '@/utils/convet'
 
 import draggable from 'vuedraggable'
 import _ from 'lodash'
@@ -56,9 +57,8 @@ export default {
         component : this.UI + name,
         name : "",
         title : "",
-        uuid : _.uniqueId()
+        uuid : uuid()
       }
-      console.log(result)
       return result;
     }
     

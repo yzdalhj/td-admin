@@ -58,7 +58,6 @@ export default {
         ),
         item: formItems(data.items),
       };
-      console.log(this.formData);
     }
     this.init();
   },

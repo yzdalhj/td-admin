@@ -26,3 +26,8 @@ export function KeysObject(items: any , key: string | number) {
   })
   return result;
 }
+
+
+export function uuid() {
+  return window.btoa(`${new Date().getTime() }`)
+}
